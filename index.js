@@ -1,8 +1,7 @@
 
-let isPlaying;
 let score = 0; //initial score 0
 let time = 10;
-let timerId;
+let timerInterval = time;
 
 
 // Variables for the DOM elements
@@ -40,89 +39,108 @@ const words = [
   "north",
 ];
 
-//0. initialize gamefunctions
 
 //listen to window DOM starts game
-window.addEventListener('load', initializeGame); 
 
-function initializeGame() {
+window.addEventListener('load', startGame); 
 
-  setInterval(chkStatus, 50);
-  start()
+//startGame()
 
-  addWordToDOM(text); //addWordToDOM(text);
-  text.addEventListener('input', start);
+function startGame() {
+
+  checkInput();
+  addWordToDOM(); //addWordToDOM(text);
+  startCountDown();
+  text.addEventListener("input", checkInput);
 
 }
-
-initializeGame()
 
 // 1. picks random word
 
-const word  = document.getElementById("word"); //IDWord
-
-// addwordtodom
-
 function addWordToDOM() {
+
   const randomPick = Math.floor(Math.random() * words.length);
   word.innerText = words[randomPick];
-  timerId(); //??? here
 }
 
+// checks word - clears text
+function checkInput() {
 
-// 2. Listens to result and matches up with chosen word. if true add 1 to score
-//loop this?
+  if (text.value === word.innerText) {
+  
+          text.value = "";
+          updateScore();
+          addWordToDOM();
+          stopCountDown();
+          startCountDown();      
+        }
+  }
+  
+  //updates score 
+
+  function updateScore() {
+    score++;
+    scoreEl.innerHTML = score;
+  }
 
 
-function start() {
-
-if (text.value === word.innerHTML) {
-  text.addEventListener("input", function()) { //ska det va textInput??
-    const inputWord = text.value; //ska det va textInput??
-
-        addWordToDOM(text);
-        text.value = "";
-        score++;
-        scoreEl.innerHTML = score;
-        startCountDown()
-
-else {
-        text.innerHTML = "";
-        return false;
-	}
-}
-
-}
-}
-
-// timer
+// time
 
  function countDown() {
     if (time > 0) {
       time--;
     } else if(time === 0) {
-      gameOver();
+      gameOver()
     }
     timeEl.innerHTML = time;
 }
 
 function startCountDown() {
-  timerId =setInterval(countDown, 1000)
+  timerInterval=setInterval(countDown, 1000); //timeEl
 }
 
 function stopCountDown() {
-  clearInterval(timerId);
+  clearInterval(timerInterval); //clear countDown? timeEl
 }
 
 function gameOver (){
-    stopCountDown() //stop time
-    word.innerHTML = "Game Over! Restarting game..";
+    stopCountDown(); //stop time;
+    alert("Game over! Your score is " + score);
 }
 
 
 
 
+/*
+// settings - difficulty level
 
+const select = document.getElementById('difficulty');
+
+function startCountDown() {
+  timerId =setInterval(...);
+}
+
+const values = {
+  easy: 'easy',
+  medium: 'medium',
+  hard: 'hard',
+};
+
+select.value = values.easy;
+
+function startGame() {
+  let timer;
+  if (select.value === values.easy) {
+    timer = setInterval(countDown, 10000);
+    startGame();
+  } else if (select.value === values.medium){
+    timer = setInterval(countDown, 5000);
+    startGame();
+  } else if (select.value === values.hard) {
+    timer = setInterval(countDown, 3000);
+    startGame;()
+  }
+}
 
 
 
@@ -181,21 +199,6 @@ placeholder.addEventListener(input.txt)
 if placeholder.txt match med randomword
 then congratulations
 
-/*timer täller 
-listen
-
-1. You have an array of words: `const words = ['apple', 'banana', 'cherry'];`
-2. The user sees the current word on the screen: `word` element displays "banana".
-3. The user types "banana" correctly into the `text` input.
-4. The `updateScore` function is called, increasing the score from 0 to 1.
-5. The `addWordToDOM` function randomly selects and updates the `word` element to display "cherry".
-6. The timer is increased by 5 seconds.
-7. The `text` input is cleared, ready for the next word.
-8. A timer runs in the background and decreases by 1 second every interval until it reaches 0.
-9. Once the timer hits 0, the `gameOver` function is triggered, displaying the end-game screen with the total score.
-10. The user can hide the settings by clicking the settings button.
-11. The user submits a new difficulty level through the settings form, which adjusts the timer based on their selection.
-
 
 -------
 
@@ -207,7 +210,7 @@ REQUIREMENTS:
 
 PART 1 
 
-Create a addWordToDOM function that will update the ”word” element with a random item from the words array 
+Create a addWordToDOM function that will update the ”word” element with a random item from the words array OK
 
 Create a updateScore function that will increment score by +1 
 
@@ -240,29 +243,6 @@ Add an event listener for the settings form so that you can change the difficult
 Set time depending on difficulty in the eventlistener 
 
 
-You need to make a typing game. Here's how to do it:
-
-**Part 1:**
-
-1. **Make a function** that picks a random word from a list and shows it on the screen.
-2. **Make another function** that adds 1 to the score when you type a word right.
-3. **Watch the typing box**. When someone types the right word:
-   - Add 1 to the score.
-   - Show a new word on the screen.
-   - Give 5 more seconds on the timer.
-   - Clear the typing box so it's empty.
-
-**Part 2:**
-
-1. **Make a timer function** that counts down by one second every time it runs. Stop when it gets to zero.
-2. **Make a game over function** that shows a "game over" message when the timer hits zero.
-
-**Part 3 (Optional):**
-
-1. **Add a button** that makes the settings disappear when you click it.
-2. **Make the settings form** change the game difficulty.
-3. **Change the timer** based on how hard the game is by using the settings.
-
 
 välja i manyn ger färre sekunder idbyclass
 
@@ -289,6 +269,20 @@ addword
 		    score.innerHTML = score;  //updatescore?
   )
 
+    setInterval(chkStatus, 50);
+
+
   function refresh() {
     window.location.reload(true);
 }
+
+    const inputWord = text.value; //ska det va textInput??
+
+    start
+    else {
+        text.value = ""; // text.innerHTML = "";??
+        //return false;
+        score--;
+        updateScore();
+        addWordToDOM();
+        startCountDown();  
