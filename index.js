@@ -42,9 +42,9 @@ const words = [
 
 //listen to window DOM starts game
 
-window.addEventListener('load', startGame); 
+//window.addEventListener('load', startGame); 
 
-//startGame()
+startGame();
 
 function startGame() {
 
@@ -285,4 +285,4 @@ addword
         score--;
         updateScore();
         addWordToDOM();
-        startCountDown();  
+        startCountDown();
