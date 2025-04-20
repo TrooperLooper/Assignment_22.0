@@ -286,3 +286,5 @@ addword
         updateScore();
         addWordToDOM();
         startCountDown();
+
+        */
